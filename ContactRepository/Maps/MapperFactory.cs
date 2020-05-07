@@ -7,21 +7,28 @@ using System.Text;
 
 namespace ContactRepository.Maps
 {
-    public static class MapperFactory<TSource, TDest> 
+    public static class MapperFactory<TSource, TDest>
         where TSource : class
         where TDest : class
     {
-        public static IMapper Mapper 
+        public static IMapper Instance
         { 
             get
             {
-                return new Mapper(CreateIt());
+                return new Mapper(SetMapperConfiguration());
             }
         }
 
-        public static MapperConfiguration CreateIt()
+        private static MapperConfiguration SetMapperConfiguration()
         {
-            return new MapperConfiguration(cfg => cfg.CreateMap<TSource, TDest>());
+
+            var conifg = new MapperConfiguration(cgf =>
+            {
+                cgf.AddProfile(new AMProfiles());
+            });
+            return conifg;
         }
     }
+
+    
 }
