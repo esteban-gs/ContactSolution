@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ContactRepository\ContactRepository.csproj" />
+  </ItemGroup>
+
 </Project>

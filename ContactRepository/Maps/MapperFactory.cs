@@ -7,9 +7,7 @@ using System.Text;
 
 namespace ContactRepository.Maps
 {
-    public static class MapperFactory<TSource, TDest>
-        where TSource : class
-        where TDest : class
+    public static class MapperFactory
     {
         public static IMapper Instance
         { 

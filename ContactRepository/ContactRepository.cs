@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using ContactDB;
-using ContactRepository.Maps;
-using Microsoft.Extensions.DependencyInjection;
+﻿using ContactDB;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,18 +18,25 @@ namespace ContactRepository
 
     public class ContactRepository
     {
-        public ContactForCreationDTO Add(ContactForCreationDTO contactForCreationDTO)
+        public ContactModel Add(ContactModel contactModel)
         {
-            var mapper = MapperFactory<ContactForCreationDTO, Contact>.Instance;
-            var contactDb = mapper.Map<Contact>(contactForCreationDTO);
-
+            var contactDb = ToDbModel(contactModel);
 
             DatabaseManager.Instance.Contact.Add(contactDb);
             DatabaseManager.Instance.SaveChanges();
 
-            var contactForView = mapper.Map<ContactForCreationDTO>(contactDb);
-
-            return contactForView;
+            contactModel = new ContactModel
+            {
+                Age = contactDb.ContactAge,
+                CreatedDate = contactDb.ContactCreatedDate,
+                Email = contactDb.ContactEmail,
+                Id = contactDb.ContactId,
+                Name = contactDb.ContactName,
+                Notes = contactDb.ContactNotes,
+                PhoneNumber = contactDb.ContactPhoneNumber,
+                PhoneType = contactDb.ContactPhoneType
+            };
+            return contactModel;
         }
 
         public List<ContactModel> GetAll()
